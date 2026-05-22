@@ -1,122 +1,122 @@
 {
-    "name": "vscode-dev-toolkit",
-    "displayName": "VS Code Dev Toolkit",
-    "description": "An extensible collection of focused VS Code productivity toolkits.",
-    "version": "0.1.0",
-    "icon": "resources/icon.png",
-    "publisher": "mfolarin",
-    "license": "MIT",
-    "engines": {
-        "vscode": "^1.91.0"
+  "name": "vscode-dev-toolkit",
+  "displayName": "VS Code Dev Toolkit",
+  "description": "An extensible collection of focused VS Code productivity toolkits.",
+  "version": "0.1.1",
+  "publisher": "mfolarin",
+  "license": "MIT",
+  "icon": "resources/icon.png",
+  "engines": {
+    "vscode": "^1.121.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
     },
-    "categories": [
-        "Other"
+    "virtualWorkspaces": true
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "vscodeDevToolkit.hideWorkbenchChrome",
+        "title": "Dev Toolkit: Hide Sidebar and Panel"
+      },
+      {
+        "command": "vscodeDevToolkit.hideSidebar",
+        "title": "Dev Toolkit: Hide Sidebar"
+      },
+      {
+        "command": "vscodeDevToolkit.hidePanel",
+        "title": "Dev Toolkit: Hide Panel"
+      },
+      {
+        "command": "vscodeDevToolkit.toggleFocusAutoHide",
+        "title": "Dev Toolkit: Toggle Focus Auto Hide"
+      },
+      {
+        "command": "vscodeDevToolkit.insertIsoTimestamp",
+        "title": "Dev Toolkit: Insert ISO Timestamp"
+      },
+      {
+        "command": "vscodeDevToolkit.copyRelativeFilePath",
+        "title": "Dev Toolkit: Copy Active File Relative Path"
+      },
+      {
+        "command": "vscodeDevToolkit.revealActiveFileInExplorer",
+        "title": "Dev Toolkit: Reveal Active File In Explorer"
+      },
+      {
+        "command": "vscodeDevToolkit.openDailyNote",
+        "title": "Dev Toolkit: Open Daily Note"
+      }
     ],
-    "activationEvents": [
-        "onStartupFinished"
-    ],
-    "main": "./out/extension.js",
-    "capabilities": {
-        "untrustedWorkspaces": {
-            "supported": true
+    "configuration": {
+      "title": "VS Code Dev Toolkit",
+      "properties": {
+        "vscodeDevToolkit.focusAutoHide.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Hide the sidebar and panel when focus returns to an editor."
         },
-        "virtualWorkspaces": true
-    },
-    "contributes": {
-        "commands": [
-            {
-                "command": "vscodeDevToolkit.hideWorkbenchChrome",
-                "title": "Dev Toolkit: Hide Sidebar and Panel"
-            },
-            {
-                "command": "vscodeDevToolkit.hideSidebar",
-                "title": "Dev Toolkit: Hide Sidebar"
-            },
-            {
-                "command": "vscodeDevToolkit.hidePanel",
-                "title": "Dev Toolkit: Hide Panel"
-            },
-            {
-                "command": "vscodeDevToolkit.toggleFocusAutoHide",
-                "title": "Dev Toolkit: Toggle Focus Auto Hide"
-            },
-            {
-                "command": "vscodeDevToolkit.insertIsoTimestamp",
-                "title": "Dev Toolkit: Insert ISO Timestamp"
-            },
-            {
-                "command": "vscodeDevToolkit.copyRelativeFilePath",
-                "title": "Dev Toolkit: Copy Active File Relative Path"
-            },
-            {
-                "command": "vscodeDevToolkit.revealActiveFileInExplorer",
-                "title": "Dev Toolkit: Reveal Active File In Explorer"
-            },
-            {
-                "command": "vscodeDevToolkit.openDailyNote",
-                "title": "Dev Toolkit: Open Daily Note"
-            }
-        ],
-        "configuration": {
-            "title": "VS Code Dev Toolkit",
-            "properties": {
-                "vscodeDevToolkit.focusAutoHide.enabled": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Hide the sidebar and panel when focus returns to an editor."
-                },
-                "vscodeDevToolkit.focusAutoHide.hideSidebar": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Hide the primary sidebar when focus auto-hide runs."
-                },
-                "vscodeDevToolkit.focusAutoHide.hidePanel": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Hide the bottom panel when focus auto-hide runs."
-                },
-                "vscodeDevToolkit.focusAutoHide.debounceMs": {
-                    "type": "number",
-                    "default": 120,
-                    "minimum": 0,
-                    "description": "Delay in milliseconds before auto-hide commands run after editor focus changes."
-                },
-                "vscodeDevToolkit.notes.directory": {
-                    "type": "string",
-                    "default": ".vscode/dev-toolkit-notes",
-                    "description": "Workspace-relative directory where daily note files are stored."
-                }
-            }
+        "vscodeDevToolkit.focusAutoHide.hideSidebar": {
+          "type": "boolean",
+          "default": true,
+          "description": "Hide the primary sidebar when focus auto-hide runs."
+        },
+        "vscodeDevToolkit.focusAutoHide.hidePanel": {
+          "type": "boolean",
+          "default": true,
+          "description": "Hide the bottom panel when focus auto-hide runs."
+        },
+        "vscodeDevToolkit.focusAutoHide.debounceMs": {
+          "type": "number",
+          "default": 120,
+          "minimum": 0,
+          "description": "Delay in milliseconds before auto-hide commands run after editor focus changes."
+        },
+        "vscodeDevToolkit.notes.directory": {
+          "type": "string",
+          "default": ".vscode/dev-toolkit-notes",
+          "description": "Workspace-relative directory where daily note files are stored."
         }
-    },
-    "scripts": {
-        "vscode:prepublish": "npm run compile",
-        "compile": "tsc -p ./",
-        "watch": "tsc -watch -p ./",
-        "lint": "eslint src --ext ts",
-        "pretest": "npm run compile && npm run lint",
-        "test": "vscode-test"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/folarinmartins/vscode-dev-toolkit.git"
-    },
-    "bugs": {
-        "url": "https://github.com/folarinmartins/vscode-dev-toolkit/issues"
-    },
-    "homepage": "https://github.com/folarinmartins/vscode-dev-toolkit#readme",
-    "devDependencies": {
-        "@types/mocha": "^10.0.7",
-        "@types/node": "20.x",
-        "@types/vscode": "^1.91.0",
-        "@typescript-eslint/eslint-plugin": "^7.14.1",
-        "@typescript-eslint/parser": "^7.11.0",
-        "@vscode/test-cli": "^0.0.9",
-        "@vscode/test-electron": "^2.4.0",
-        "eslint": "^8.57.0",
-        "typescript": "5.5.4"
-    },
-    "dependencies": {
-        "vsce": "^2.15.0"
+      }
     }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/folarinmartins/vscode-dev-toolkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/folarinmartins/vscode-dev-toolkit/issues"
+  },
+  "homepage": "https://github.com/folarinmartins/vscode-dev-toolkit#readme",
+  "devDependencies": {
+    "@types/vscode": "^1.120.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^8.31.1",
+    "@typescript-eslint/parser": "^8.31.1",
+    "eslint": "^9.25.1",
+    "typescript": "^5.8.3",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.5.2"
+  },
+  "dependencies": {
+    "@vscode/vsce": "^3.6.0"
+  }
 }
