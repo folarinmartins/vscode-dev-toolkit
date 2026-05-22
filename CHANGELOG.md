@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.0
+
+- Added individual status bar toggle buttons for Primary Sidebar, Panel, Secondary Bar, Activity Bar, Status Bar, and Full Screen — colour-coded blue, grouped at the far right.
+- Eye / Auto-Hide button now opens a checkbox QuickPick to select which views participate in auto-hide. Deselecting all effectively disables auto-hide without touching any setting.
+- Auto-Hide button colour reflects active state (green = active, muted = inactive).
+- Reduced focus auto-hide debounce default from 120 ms to 0 ms (near-instant).
+- Removed redundant "Hide Workbench Chrome" and "Open Daily Note" status bar items (commands remain accessible via palette).
+- Trimmed command palette entries to the two most useful: Toggle Sidebar and Toggle Panel.
+- Removed obsolete `showHideChrome` and `showDailyNote` status bar config settings.
+
 ## 0.1.1
 
 - Rebased project scaffold onto strict official `yo code` generated baseline.

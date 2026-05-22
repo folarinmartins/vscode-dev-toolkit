@@ -4,42 +4,64 @@
 ![Version](https://img.shields.io/visual-studio-marketplace/v/mfolarin.vscode-dev-toolkit)
 ![CI](https://img.shields.io/badge/ci-azure%20pipelines-blue)
 
-VS Code Dev Toolkit is an extensible Visual Studio Code extension repository for shipping small, focused tooling without turning the codebase into a monolith.
+VS Code Dev Toolkit is an extensible Visual Studio Code extension delivering small, focused productivity toolkits through a modular architecture.
 
-This repository is now strictly bootstrap-aligned to the official generator (`yo code`) baseline and then extended with modular toolkits.
+## Status Bar
+
+All buttons appear on the far right of the status bar, colour-coded for at-a-glance context:
+
+| Button | Colour | Action |
+|--------|--------|--------|
+| `$(eye) Auto-Hide` | Green (active) / muted (inactive) | Click to select which views auto-hide on editor focus |
+| `$(layout-sidebar-left)` | Blue | Toggle Primary Sidebar |
+| `$(layout-panel)` | Blue | Toggle Panel |
+| `$(layout-sidebar-right)` | Blue | Toggle Secondary Bar |
+| `$(layout-activitybar-left)` | Blue | Toggle Activity Bar |
+| `$(layout-statusbar)` | Blue | Toggle Status Bar |
+| `$(screen-full)` | Blue | Toggle Full Screen |
+
+## Focus Auto-Hide
+
+When an editor gains focus, VS Code automatically hides whichever views you have opted in to. Click the eye button to open a checkbox picker and select the surfaces that should auto-hide. Deselecting all surfaces disables the feature with no further configuration needed.
+
+- Debounce: `0 ms` by default (near-instant, configurable via `vscodeDevToolkit.focusAutoHide.debounceMs`).
 
 ## Toolkit Suite
 
-- **Workbench toolkit** for hiding the sidebar and panel on demand.
-- **Focus Auto Hide toolkit** for automatically closing the sidebar and panel when focus returns to an editor.
-- **Editor Utilities toolkit** for inserting an ISO timestamp quickly.
-- **Workspace Utilities toolkit** for active-file path helpers.
-- **Notes Utilities toolkit** for opening a daily workspace note.
+- **Workbench toolkit** — status bar view toggles, full screen toggle, focus auto-hide surface selection.
+- **Focus Auto-Hide toolkit** — hides selected views when focus returns to an editor.
+- **Editor Utilities toolkit** — insert ISO timestamp at cursor.
+- **Workspace Utilities toolkit** — copy relative file path, reveal file in Explorer.
+- **Notes Utilities toolkit** — open or create today's daily workspace note.
 
-## Architecture
+## Commands (Command Palette)
 
-- `src/core/` contains the shared toolkit contract and the registry.
-- `src/toolkits/` contains isolated toolkit modules.
-- `src/toolkits/index.ts` is the single place where toolkits are wired into activation.
+- `Dev Toolkit: Toggle Sidebar`
+- `Dev Toolkit: Toggle Panel`
 
-## Included Commands
-
-- `Dev Toolkit: Hide Sidebar and Panel`
-- `Dev Toolkit: Hide Sidebar`
-- `Dev Toolkit: Hide Panel`
-- `Dev Toolkit: Toggle Focus Auto Hide`
-- `Dev Toolkit: Insert ISO Timestamp`
-- `Dev Toolkit: Copy Active File Relative Path`
-- `Dev Toolkit: Reveal Active File In Explorer`
-- `Dev Toolkit: Open Daily Note`
+All other toolkit actions are accessible via the status bar buttons.
 
 ## Settings
 
-- `vscodeDevToolkit.focusAutoHide.enabled`
-- `vscodeDevToolkit.focusAutoHide.hideSidebar`
-- `vscodeDevToolkit.focusAutoHide.hidePanel`
-- `vscodeDevToolkit.focusAutoHide.debounceMs`
-- `vscodeDevToolkit.notes.directory`
+| Setting | Default | Description |
+|---------|---------|-------------|
+| `vscodeDevToolkit.focusAutoHide.hideSidebar` | `true` | Include Primary Sidebar in auto-hide |
+| `vscodeDevToolkit.focusAutoHide.hidePanel` | `true` | Include Panel in auto-hide |
+| `vscodeDevToolkit.focusAutoHide.hideSecondaryBar` | `false` | Include Secondary Bar in auto-hide |
+| `vscodeDevToolkit.focusAutoHide.hideActivityBar` | `false` | Include Activity Bar in auto-hide |
+| `vscodeDevToolkit.focusAutoHide.hideStatusBar` | `false` | Include Status Bar in auto-hide |
+| `vscodeDevToolkit.focusAutoHide.debounceMs` | `0` | Delay (ms) before auto-hide fires |
+| `vscodeDevToolkit.statusBar.showFocusAutoHideToggle` | `true` | Show the eye auto-hide button |
+| `vscodeDevToolkit.statusBar.showViewToggles` | `true` | Show the six view toggle buttons |
+| `vscodeDevToolkit.notes.directory` | `.vscode/dev-toolkit-notes` | Directory for daily note files |
+
+## Architecture
+
+```
+src/core/          Shared Toolkit interface and registry
+src/toolkits/      One folder per toolkit module
+src/toolkits/index.ts  Single activation wiring point
+```
 
 ## Local Development
 
@@ -50,13 +72,11 @@ npm run lint
 npm test
 ```
 
-Use `F5` in VS Code to launch an Extension Development Host.
+Press `F5` in VS Code to launch an Extension Development Host.
 
-## Publishing and Release Conventions
+## Publishing
 
-- `azure-pipelines.yml` extends your shared Azure DevOps extension template.
-- `.github/workflows/release-readiness.yml` enforces compile/lint checks on `master` and `release`.
-- `RELEASING.md` documents branch and release flow.
+See [RELEASING.md](RELEASING.md). The `azure-pipelines.yml` extends the shared CI/CD template; publication to the Marketplace is triggered by setting `publishToMarketplace: true` on a `release` branch build.
 
 ## License
 

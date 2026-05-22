@@ -2,7 +2,7 @@
   "name": "vscode-dev-toolkit",
   "displayName": "VS Code Dev Toolkit",
   "description": "An extensible collection of focused VS Code productivity toolkits.",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "publisher": "mfolarin",
   "license": "MIT",
   "icon": "resources/icon.png",
@@ -25,66 +25,62 @@
   "contributes": {
     "commands": [
       {
-        "command": "vscodeDevToolkit.hideWorkbenchChrome",
-        "title": "Dev Toolkit: Hide Sidebar and Panel"
+        "command": "vscodeDevToolkit.toggleSidebar",
+        "title": "Dev Toolkit: Toggle Sidebar"
       },
       {
-        "command": "vscodeDevToolkit.hideSidebar",
-        "title": "Dev Toolkit: Hide Sidebar"
-      },
-      {
-        "command": "vscodeDevToolkit.hidePanel",
-        "title": "Dev Toolkit: Hide Panel"
-      },
-      {
-        "command": "vscodeDevToolkit.toggleFocusAutoHide",
-        "title": "Dev Toolkit: Toggle Focus Auto Hide"
-      },
-      {
-        "command": "vscodeDevToolkit.insertIsoTimestamp",
-        "title": "Dev Toolkit: Insert ISO Timestamp"
-      },
-      {
-        "command": "vscodeDevToolkit.copyRelativeFilePath",
-        "title": "Dev Toolkit: Copy Active File Relative Path"
-      },
-      {
-        "command": "vscodeDevToolkit.revealActiveFileInExplorer",
-        "title": "Dev Toolkit: Reveal Active File In Explorer"
-      },
-      {
-        "command": "vscodeDevToolkit.openDailyNote",
-        "title": "Dev Toolkit: Open Daily Note"
+        "command": "vscodeDevToolkit.togglePanel",
+        "title": "Dev Toolkit: Toggle Panel"
       }
     ],
     "configuration": {
       "title": "VS Code Dev Toolkit",
       "properties": {
-        "vscodeDevToolkit.focusAutoHide.enabled": {
-          "type": "boolean",
-          "default": true,
-          "description": "Hide the sidebar and panel when focus returns to an editor."
-        },
         "vscodeDevToolkit.focusAutoHide.hideSidebar": {
           "type": "boolean",
           "default": true,
-          "description": "Hide the primary sidebar when focus auto-hide runs."
+          "description": "Auto-hide the primary (left) sidebar when focus returns to an editor."
         },
         "vscodeDevToolkit.focusAutoHide.hidePanel": {
           "type": "boolean",
           "default": true,
-          "description": "Hide the bottom panel when focus auto-hide runs."
+          "description": "Auto-hide the bottom panel when focus returns to an editor."
+        },
+        "vscodeDevToolkit.focusAutoHide.hideSecondaryBar": {
+          "type": "boolean",
+          "default": false,
+          "description": "Auto-hide the secondary (right) sidebar when focus returns to an editor."
+        },
+        "vscodeDevToolkit.focusAutoHide.hideActivityBar": {
+          "type": "boolean",
+          "default": false,
+          "description": "Auto-hide the activity bar (left icon rail) when focus returns to an editor."
+        },
+        "vscodeDevToolkit.focusAutoHide.hideStatusBar": {
+          "type": "boolean",
+          "default": false,
+          "description": "Auto-hide the status bar when focus returns to an editor."
         },
         "vscodeDevToolkit.focusAutoHide.debounceMs": {
           "type": "number",
-          "default": 120,
+          "default": 0,
           "minimum": 0,
-          "description": "Delay in milliseconds before auto-hide commands run after editor focus changes."
+          "description": "Delay in milliseconds before auto-hide commands run after editor focus changes. 0 = near-instant (next tick)."
         },
         "vscodeDevToolkit.notes.directory": {
           "type": "string",
           "default": ".vscode/dev-toolkit-notes",
           "description": "Workspace-relative directory where daily note files are stored."
+        },
+        "vscodeDevToolkit.statusBar.showFocusAutoHideToggle": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the Focus Auto-Hide toggle button in the status bar."
+        },
+        "vscodeDevToolkit.statusBar.showViewToggles": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show individual view toggle buttons (Sidebar, Panel, Secondary Bar, Activity Bar, Status Bar) in the status bar."
         }
       }
     }

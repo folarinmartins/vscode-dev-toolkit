@@ -3,16 +3,10 @@ import * as vscode from 'vscode';
 import { Toolkit } from '../../core/toolkit';
 import { hideWorkbenchChrome } from '../workbench/workbenchToolkit';
 
-function isFocusAutoHideEnabled(): boolean {
-    return vscode.workspace
-        .getConfiguration('vscodeDevToolkit.focusAutoHide')
-        .get<boolean>('enabled', true);
-}
-
 function getDebounceMs(): number {
     return vscode.workspace
         .getConfiguration('vscodeDevToolkit.focusAutoHide')
-        .get<number>('debounceMs', 120);
+        .get<number>('debounceMs', 0);
 }
 
 export const focusAutoHideToolkit: Toolkit = {
@@ -21,10 +15,6 @@ export const focusAutoHideToolkit: Toolkit = {
         let timer: NodeJS.Timeout | undefined;
 
         const scheduleAutoHide = (): void => {
-            if (!isFocusAutoHideEnabled()) {
-                return;
-            }
-
             if (!vscode.window.state.focused) {
                 return;
             }
