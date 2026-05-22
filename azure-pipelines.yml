@@ -9,5 +9,3 @@ resources:
 
 extends:
     template: vscode-extension-pipeline.yml@templates
-    parameters:
-        publishToMarketplace: ${{ eq(variables['Build.SourceBranch'], 'refs/heads/release') }}

@@ -21,35 +21,7 @@ function getTodayFileName(): string {
 export const notesUtilitiesToolkit: Toolkit = {
     id: 'notesUtilities',
     activate() {
-        const dailyNoteItem = vscode.window.createStatusBarItem(
-            'vscodeDevToolkit.dailyNote',
-            vscode.StatusBarAlignment.Right,
-            98,
-        );
-        dailyNoteItem.command = 'vscodeDevToolkit.openDailyNote';
-        dailyNoteItem.text = '$(calendar)';
-        dailyNoteItem.tooltip = "Open Today's Daily Note";
-
-        const syncDailyNoteItem = (): void => {
-            const show = vscode.workspace
-                .getConfiguration('vscodeDevToolkit.statusBar')
-                .get<boolean>('showDailyNote', true);
-            if (show) {
-                dailyNoteItem.show();
-            } else {
-                dailyNoteItem.hide();
-            }
-        };
-
-        syncDailyNoteItem();
-
         return [
-            dailyNoteItem,
-            vscode.workspace.onDidChangeConfiguration((e) => {
-                if (e.affectsConfiguration('vscodeDevToolkit.statusBar.showDailyNote')) {
-                    syncDailyNoteItem();
-                }
-            }),
             vscode.commands.registerCommand('vscodeDevToolkit.openDailyNote', async () => {
                 const workspaceRoot = getWorkspaceRoot();
 

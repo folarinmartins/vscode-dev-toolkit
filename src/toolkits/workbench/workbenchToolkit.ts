@@ -10,6 +10,65 @@ const FOCUS_AUTO_HIDE_SURFACES = [
     'hideStatusBar',
 ] as const;
 
+const FOCUS_AUTO_HIDE_SURFACE_LABELS: Record<(typeof FOCUS_AUTO_HIDE_SURFACES)[number], string> = {
+    hideSidebar: 'Sidebar',
+    hidePanel: 'Panel',
+    hideSecondaryBar: 'Secondary Bar',
+    hideActivityBar: 'Activity Bar',
+    hideStatusBar: 'Status Bar',
+};
+
+const VIEW_TOGGLES = [
+    {
+        id: 'vscodeDevToolkit.toggleSidebarBtn',
+        command: 'vscodeDevToolkit.toggleSidebar',
+        icon: '$(layout-sidebar-left)',
+        tooltip: 'Toggle Sidebar',
+        workbenchCommand: 'workbench.action.toggleSidebarVisibility',
+        priority: 9,
+    },
+    {
+        id: 'vscodeDevToolkit.togglePanelBtn',
+        command: 'vscodeDevToolkit.togglePanel',
+        icon: '$(layout-panel)',
+        tooltip: 'Toggle Panel',
+        workbenchCommand: 'workbench.action.togglePanel',
+        priority: 8,
+    },
+    {
+        id: 'vscodeDevToolkit.toggleSecondaryBarBtn',
+        command: 'vscodeDevToolkit.toggleSecondaryBar',
+        icon: '$(layout-sidebar-right)',
+        tooltip: 'Toggle Secondary Bar',
+        workbenchCommand: 'workbench.action.toggleAuxiliaryBar',
+        priority: 7,
+    },
+    {
+        id: 'vscodeDevToolkit.toggleActivityBarBtn',
+        command: 'vscodeDevToolkit.toggleActivityBar',
+        icon: '$(layout-activitybar-left)',
+        tooltip: 'Toggle Activity Bar',
+        workbenchCommand: 'workbench.action.toggleActivityBarVisibility',
+        priority: 6,
+    },
+    {
+        id: 'vscodeDevToolkit.toggleStatusBarViewBtn',
+        command: 'vscodeDevToolkit.toggleStatusBarView',
+        icon: '$(layout-statusbar)',
+        tooltip: 'Toggle Status Bar',
+        workbenchCommand: 'workbench.action.toggleStatusbarVisibility',
+        priority: 5,
+    },
+    {
+        id: 'vscodeDevToolkit.toggleFullScreenBtn',
+        command: 'vscodeDevToolkit.toggleFullScreen',
+        icon: '$(screen-full)',
+        tooltip: 'Toggle Full Screen',
+        workbenchCommand: 'workbench.action.toggleFullScreen',
+        priority: 4,
+    },
+];
+
 function isAnyFocusAutoHideSurfaceEnabled(): boolean {
     const config = vscode.workspace.getConfiguration('vscodeDevToolkit.focusAutoHide');
     return FOCUS_AUTO_HIDE_SURFACES.some((s) => config.get<boolean>(s, false));
@@ -64,18 +123,22 @@ export const workbenchToolkit: Toolkit = {
         const autoHideItem = vscode.window.createStatusBarItem(
             'vscodeDevToolkit.focusAutoHideToggle',
             vscode.StatusBarAlignment.Right,
-            100,
+            10,
         );
         autoHideItem.command = 'vscodeDevToolkit.toggleFocusAutoHide';
 
-        const hideChromeItem = vscode.window.createStatusBarItem(
-            'vscodeDevToolkit.hideChrome',
-            vscode.StatusBarAlignment.Right,
-            99,
-        );
-        hideChromeItem.command = 'vscodeDevToolkit.hideWorkbenchChrome';
-        hideChromeItem.text = '$(layout-sidebar-left-off)';
-        hideChromeItem.tooltip = 'Hide Workbench Chrome';
+        const viewToggleItems = VIEW_TOGGLES.map((cfg) => {
+            const item = vscode.window.createStatusBarItem(
+                cfg.id,
+                vscode.StatusBarAlignment.Right,
+                cfg.priority,
+            );
+            item.command = cfg.command;
+            item.text = cfg.icon;
+            item.tooltip = cfg.tooltip;
+            item.color = new vscode.ThemeColor('editorInfo.foreground');
+            return item;
+        });
 
         const syncStatusBarItems = (): void => {
             const sbConfig = vscode.workspace.getConfiguration('vscodeDevToolkit.statusBar');
@@ -86,15 +149,21 @@ export const workbenchToolkit: Toolkit = {
                 autoHideItem.tooltip = anyEnabled
                     ? 'Focus Auto-Hide: Active — click to disable all'
                     : 'Focus Auto-Hide: Inactive — click to enable';
+                autoHideItem.color = anyEnabled
+                    ? new vscode.ThemeColor('charts.green')
+                    : new vscode.ThemeColor('disabledForeground');
                 autoHideItem.show();
             } else {
                 autoHideItem.hide();
             }
 
-            if (sbConfig.get<boolean>('showHideChrome', true)) {
-                hideChromeItem.show();
-            } else {
-                hideChromeItem.hide();
+            const showViewToggles = sbConfig.get<boolean>('showViewToggles', true);
+            for (const item of viewToggleItems) {
+                if (showViewToggles) {
+                    item.show();
+                } else {
+                    item.hide();
+                }
             }
         };
 
@@ -102,7 +171,12 @@ export const workbenchToolkit: Toolkit = {
 
         return [
             autoHideItem,
-            hideChromeItem,
+            ...viewToggleItems,
+            ...VIEW_TOGGLES.map((cfg) =>
+                vscode.commands.registerCommand(cfg.command, async () => {
+                    await executeWorkbenchCommand(cfg.workbenchCommand);
+                }),
+            ),
             vscode.workspace.onDidChangeConfiguration((e) => {
                 if (
                     e.affectsConfiguration('vscodeDevToolkit.statusBar') ||
@@ -121,28 +195,33 @@ export const workbenchToolkit: Toolkit = {
                 await executeWorkbenchCommand('workbench.action.closePanel');
             }),
             vscode.commands.registerCommand('vscodeDevToolkit.toggleFocusAutoHide', async () => {
-                const anyEnabled = isAnyFocusAutoHideSurfaceEnabled();
+                const config = vscode.workspace.getConfiguration('vscodeDevToolkit.focusAutoHide');
+
+                const items = FOCUS_AUTO_HIDE_SURFACES.map((surface) => ({
+                    label: FOCUS_AUTO_HIDE_SURFACE_LABELS[surface],
+                    description: surface,
+                    picked: config.get<boolean>(surface, false),
+                    surface,
+                }));
+
+                const selected = await vscode.window.showQuickPick(items, {
+                    canPickMany: true,
+                    title: 'Focus Auto-Hide: Select views to hide',
+                    placeHolder: 'Check views to include in auto-hide (none = disabled)',
+                });
+
+                // User cancelled
+                if (selected === undefined) {
+                    return;
+                }
+
+                const selectedSurfaces = new Set(selected.map((i) => i.surface));
                 const globalConfig = vscode.workspace.getConfiguration();
 
-                if (anyEnabled) {
-                    // Disable all surfaces
-                    for (const surface of FOCUS_AUTO_HIDE_SURFACES) {
-                        await globalConfig.update(
-                            `vscodeDevToolkit.focusAutoHide.${surface}`,
-                            false,
-                            vscode.ConfigurationTarget.Global,
-                        );
-                    }
-                } else {
-                    // Enable the two most common surfaces as a sensible default
+                for (const surface of FOCUS_AUTO_HIDE_SURFACES) {
                     await globalConfig.update(
-                        'vscodeDevToolkit.focusAutoHide.hideSidebar',
-                        true,
-                        vscode.ConfigurationTarget.Global,
-                    );
-                    await globalConfig.update(
-                        'vscodeDevToolkit.focusAutoHide.hidePanel',
-                        true,
+                        `vscodeDevToolkit.focusAutoHide.${surface}`,
+                        selectedSurfaces.has(surface),
                         vscode.ConfigurationTarget.Global,
                     );
                 }

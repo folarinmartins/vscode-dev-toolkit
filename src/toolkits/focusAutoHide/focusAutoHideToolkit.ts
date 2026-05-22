@@ -6,7 +6,7 @@ import { hideWorkbenchChrome } from '../workbench/workbenchToolkit';
 function getDebounceMs(): number {
     return vscode.workspace
         .getConfiguration('vscodeDevToolkit.focusAutoHide')
-        .get<number>('debounceMs', 120);
+        .get<number>('debounceMs', 0);
 }
 
 export const focusAutoHideToolkit: Toolkit = {
