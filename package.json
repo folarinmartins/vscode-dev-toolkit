@@ -60,20 +60,30 @@
     "configuration": {
       "title": "VS Code Dev Toolkit",
       "properties": {
-        "vscodeDevToolkit.focusAutoHide.enabled": {
-          "type": "boolean",
-          "default": true,
-          "description": "Hide the sidebar and panel when focus returns to an editor."
-        },
         "vscodeDevToolkit.focusAutoHide.hideSidebar": {
           "type": "boolean",
           "default": true,
-          "description": "Hide the primary sidebar when focus auto-hide runs."
+          "description": "Auto-hide the primary (left) sidebar when focus returns to an editor."
         },
         "vscodeDevToolkit.focusAutoHide.hidePanel": {
           "type": "boolean",
           "default": true,
-          "description": "Hide the bottom panel when focus auto-hide runs."
+          "description": "Auto-hide the bottom panel when focus returns to an editor."
+        },
+        "vscodeDevToolkit.focusAutoHide.hideSecondaryBar": {
+          "type": "boolean",
+          "default": false,
+          "description": "Auto-hide the secondary (right) sidebar when focus returns to an editor."
+        },
+        "vscodeDevToolkit.focusAutoHide.hideActivityBar": {
+          "type": "boolean",
+          "default": false,
+          "description": "Auto-hide the activity bar (left icon rail) when focus returns to an editor."
+        },
+        "vscodeDevToolkit.focusAutoHide.hideStatusBar": {
+          "type": "boolean",
+          "default": false,
+          "description": "Auto-hide the status bar when focus returns to an editor."
         },
         "vscodeDevToolkit.focusAutoHide.debounceMs": {
           "type": "number",
@@ -85,6 +95,21 @@
           "type": "string",
           "default": ".vscode/dev-toolkit-notes",
           "description": "Workspace-relative directory where daily note files are stored."
+        },
+        "vscodeDevToolkit.statusBar.showFocusAutoHideToggle": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the Focus Auto-Hide toggle button in the status bar."
+        },
+        "vscodeDevToolkit.statusBar.showHideChrome": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the Hide Workbench Chrome button in the status bar."
+        },
+        "vscodeDevToolkit.statusBar.showDailyNote": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the Open Daily Note shortcut button in the status bar."
         }
       }
     }
