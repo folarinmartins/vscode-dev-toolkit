@@ -2,7 +2,7 @@
   "name": "vscode-dev-toolkit",
   "displayName": "VS Code Dev Toolkit",
   "description": "An extensible collection of focused VS Code productivity toolkits.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "publisher": "mfolarin",
   "license": "MIT",
   "icon": "resources/icon.png",
