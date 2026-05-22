@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.2
+
+- Moved all status bar buttons to the left side of the status bar, positioned last (rightmost of the left cluster).
+
 ## 0.2.1
 
 - Reordered status bar buttons to match VS Code's physical layout: Activity Bar → Sidebar → Secondary Bar → Panel → Status Bar → Full Screen.
