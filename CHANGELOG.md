@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1
+
+- Reordered status bar buttons to match VS Code's physical layout: Activity Bar → Sidebar → Secondary Bar → Panel → Status Bar → Full Screen.
+
 ## 0.2.0
 
 - Added individual status bar toggle buttons for Primary Sidebar, Panel, Secondary Bar, Activity Bar, Status Bar, and Full Screen — colour-coded blue, grouped at the far right.

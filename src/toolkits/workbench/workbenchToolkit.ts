@@ -20,19 +20,19 @@ const FOCUS_AUTO_HIDE_SURFACE_LABELS: Record<(typeof FOCUS_AUTO_HIDE_SURFACES)[n
 
 const VIEW_TOGGLES = [
     {
+        id: 'vscodeDevToolkit.toggleActivityBarBtn',
+        command: 'vscodeDevToolkit.toggleActivityBar',
+        icon: '$(layout-activitybar-left)',
+        tooltip: 'Toggle Activity Bar',
+        workbenchCommand: 'workbench.action.toggleActivityBarVisibility',
+        priority: 9,
+    },
+    {
         id: 'vscodeDevToolkit.toggleSidebarBtn',
         command: 'vscodeDevToolkit.toggleSidebar',
         icon: '$(layout-sidebar-left)',
         tooltip: 'Toggle Sidebar',
         workbenchCommand: 'workbench.action.toggleSidebarVisibility',
-        priority: 9,
-    },
-    {
-        id: 'vscodeDevToolkit.togglePanelBtn',
-        command: 'vscodeDevToolkit.togglePanel',
-        icon: '$(layout-panel)',
-        tooltip: 'Toggle Panel',
-        workbenchCommand: 'workbench.action.togglePanel',
         priority: 8,
     },
     {
@@ -44,11 +44,11 @@ const VIEW_TOGGLES = [
         priority: 7,
     },
     {
-        id: 'vscodeDevToolkit.toggleActivityBarBtn',
-        command: 'vscodeDevToolkit.toggleActivityBar',
-        icon: '$(layout-activitybar-left)',
-        tooltip: 'Toggle Activity Bar',
-        workbenchCommand: 'workbench.action.toggleActivityBarVisibility',
+        id: 'vscodeDevToolkit.togglePanelBtn',
+        command: 'vscodeDevToolkit.togglePanel',
+        icon: '$(layout-panel)',
+        tooltip: 'Toggle Panel',
+        workbenchCommand: 'workbench.action.togglePanel',
         priority: 6,
     },
     {
