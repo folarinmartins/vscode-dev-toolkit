@@ -122,15 +122,15 @@ export const workbenchToolkit: Toolkit = {
     activate() {
         const autoHideItem = vscode.window.createStatusBarItem(
             'vscodeDevToolkit.focusAutoHideToggle',
-            vscode.StatusBarAlignment.Right,
-            10,
+            vscode.StatusBarAlignment.Left,
+            1,
         );
         autoHideItem.command = 'vscodeDevToolkit.toggleFocusAutoHide';
 
         const viewToggleItems = VIEW_TOGGLES.map((cfg) => {
             const item = vscode.window.createStatusBarItem(
                 cfg.id,
-                vscode.StatusBarAlignment.Right,
+                vscode.StatusBarAlignment.Left,
                 cfg.priority,
             );
             item.command = cfg.command;
